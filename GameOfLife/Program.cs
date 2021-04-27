@@ -7,6 +7,7 @@ namespace GameOfLife
         static void Main(string[] args)
         {
             GameOfLife gol = new GameOfLife(1000);
+
             gol.Run(100);
         }
     }
