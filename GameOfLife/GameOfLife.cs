@@ -91,38 +91,38 @@ namespace GameOfLife
             else if (row == _gridSize - 1) // Bottom row
             {
                 if (col == 0) // Bottom left-hand corner
-                    liveNeighbors = _curGrid[row - 1, col] + _curGrid[row - 1, col + 1] +
-                                                                   _curGrid[row, col + 1];
+                    liveNeighbors = Convert.ToInt32(_curGrid[row - 1, col]) + Convert.ToInt32(_curGrid[row - 1, col + 1]) +
+                                    Convert.ToInt32(_curGrid[row, col + 1]);
 
                 else if (col == _gridSize - 1) // Bottom right-hand corner
-                    liveNeighbors = _curGrid[row - 1, col - 1] + _curGrid[row - 1, col] +
-                                       _curGrid[row, col - 1];
+                    liveNeighbors = Convert.ToInt32(_curGrid[row - 1, col - 1]) + Convert.ToInt32(_curGrid[row - 1, col]) +
+                                       Convert.ToInt32(_curGrid[row, col - 1]);
 
                 else // On bottom edge
-                    liveNeighbors = _curGrid[row - 1, col - 1] + _curGrid[row - 1, col] + _curGrid[row - 1, col + 1] +
-                                    _curGrid[row, col - 1] + _curGrid[row, col + 1];
+                    liveNeighbors = Convert.ToInt32(_curGrid[row - 1, col - 1]) + Convert.ToInt32(_curGrid[row - 1, col]) + Convert.ToInt32(_curGrid[row - 1, col + 1]) +
+                                    Convert.ToInt32(_curGrid[row, col - 1]) + Convert.ToInt32(_curGrid[row, col + 1]);
             }
             else if (col == 0)
             {
                 // Must be left edge, since corners are covered above
-                liveNeighbors = _curGrid[row - 1, col] + _curGrid[row - 1, col + 1] +
-                                                            _curGrid[row, col + 1] +
-                                _curGrid[row + 1, col] + _curGrid[row + 1, col + 1];
+                liveNeighbors = Convert.ToInt32(_curGrid[row - 1, col]) + Convert.ToInt32(_curGrid[row - 1, col + 1]) +
+                                                            Convert.ToInt32(_curGrid[row, col + 1]) +
+                                Convert.ToInt32(_curGrid[row + 1, col]) + Convert.ToInt32(_curGrid[row + 1, col + 1]);
             }
             else if (col == _gridSize - 1)
             {
                 // Must be right edge, since corners are covered above
-                liveNeighbors = _curGrid[row - 1, col - 1] + _curGrid[row - 1, col] +
-                                  _curGrid[row, col - 1] +
-                                  _curGrid[row + 1, col - 1] + _curGrid[row + 1, col];
+                liveNeighbors = Convert.ToInt32(_curGrid[row - 1, col - 1]) + Convert.ToInt32(_curGrid[row - 1, col]) +
+                                  Convert.ToInt32(_curGrid[row, col - 1]) +
+                                  Convert.ToInt32(_curGrid[row + 1, col - 1]) + Convert.ToInt32(_curGrid[row + 1, col]);
 
             }
             else
             {
                 // Interior field
-                liveNeighbors = _curGrid[row - 1, col - 1] + _curGrid[row - 1, col] + _curGrid[row, col + 1] +
-                                    _curGrid[row + 1, col - 1] + _curGrid[row + 1, col] +
-                                    _curGrid[row + 1, col - 1] + _curGrid[row + 1, col] + _curGrid[row + 1, col + 1];
+                liveNeighbors = Convert.ToInt32(_curGrid[row - 1, col - 1]) + Convert.ToInt32(_curGrid[row - 1, col]) + Convert.ToInt32(_curGrid[row, col + 1]) +
+                                    Convert.ToInt32(_curGrid[row + 1, col - 1]) + Convert.ToInt32(_curGrid[row + 1, col]) +
+                                    Convert.ToInt32(_curGrid[row + 1, col - 1]) + Convert.ToInt32(_curGrid[row + 1, col]) + Convert.ToInt32(_curGrid[row + 1, col + 1]);
             }
 
 
