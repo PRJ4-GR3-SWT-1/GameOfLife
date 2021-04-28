@@ -1,15 +1,21 @@
 ﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Xml.Schema;
+using Microsoft.VisualBasic;
 
 namespace GameOfLife
 {
-    class GameOfLife
+    class GameOfLifeTB
     {
         private readonly int _gridSize;
         private const int AliveThreshold = 25;
         private int[,] _curGrid;
         private int[,] _newGrid;
 
-        public GameOfLife(int gridSize)
+
+        public GameOfLifeTB(int gridSize)
         {
             _gridSize = gridSize;
             _curGrid = new int[_gridSize, _gridSize];
@@ -30,24 +36,44 @@ namespace GameOfLife
         {
             while (numberOfIterations > 0)
             {
-                var locationsAlive = 0;
-                for (var row = 0; row < _gridSize; row++)
+                int numberOfTask = Environment.ProcessorCount;
+                var tasks = new Task[numberOfTask];
+                var stepBarrier = new Barrier(numberOfTask, _ => Swap(ref _curGrid, ref _newGrid));
+                int chunckSize = _gridSize / numberOfTask;
+                var locationsAlive = new int[numberOfTask];
+                for (int i = 0; i < numberOfTask; i++)
                 {
-                    for (var col = 0; col < _gridSize; col++)
-                    {
-                        if (ShallLocationBeAlive(row, col))
+                    int chunckRow = i * chunckSize;
+                    var localI = i;
+                    tasks[i] = Task.Run(() =>
                         {
-                            ++locationsAlive;
-                            _newGrid[row, col] = 1;
+                            for (var row = chunckRow; row < chunckRow + chunckSize; row++)
+                            {
+                                for (var col = 0; col < _gridSize; col++)
+                                {
+                                    if (ShallLocationBeAlive(row, col))
+                                    {
+                                        ++locationsAlive[localI];
+                                        _newGrid[row, col] = 1;
+                                    }
+                                    else
+                                    {
+                                        _newGrid[row, col] = 0;
+                                    }
+                                }
+                            }
+                            stepBarrier.SignalAndWait();
                         }
-                        else
-                        {
-                            _newGrid[row, col] = 0;
-                        }
-                    }
+                    );
+                    
+
                 }
-                Swap(ref _curGrid, ref _newGrid);
-                Console.WriteLine(locationsAlive);
+
+                
+                
+
+
+                Console.WriteLine(locationsAlive.Sum());
                 numberOfIterations--;
             }
         }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GameOfLife
 {
@@ -16,7 +18,7 @@ namespace GameOfLife
             _curGrid = new int[_gridSize, _gridSize];
             _newGrid = new int[_gridSize, _gridSize];
 
-            var rnd = new Random();
+            var rnd = new Random(45);
             for (var row = 0; row < _gridSize; row++)
             {
                 for (var col = 0; col < _gridSize; col++)
@@ -31,24 +33,41 @@ namespace GameOfLife
         {
             while (numberOfIterations > 0)
             {
-                var locationsAlive = 0;
-                for (var row = 0; row < _gridSize; row++)
-                {
-                    for (var col = 0; col < _gridSize; col++)
+                var locationsAlive = new int[_gridSize];
+                //for (var row = 0; row < _gridSize; row++)
+                //{
+                //    for (var col = 0; col < _gridSize; col++)
+                //    {
+                //        if (ShallLocationBeAlive(row, col))
+                //        {
+                //            ++locationsAlive;
+                //            _newGrid[row, col] = 1;
+                //        }
+                //        else
+                //        {
+                //            _newGrid[row, col] = 0;
+                //        }
+                //    }
+                //}
+                Parallel.For(0, _gridSize, (row) =>
                     {
-                        if (ShallLocationBeAlive(row, col))
+                        for (var col = 0; col < _gridSize; col++)
                         {
-                            ++locationsAlive;
-                            _newGrid[row, col] = 1;
-                        }
-                        else
-                        {
-                            _newGrid[row, col] = 0;
+                            if (ShallLocationBeAlive(row, col))
+                            {
+                                ++locationsAlive[row];
+                                _newGrid[row, col] = 1;
+                            }
+                            else
+                            {
+                                _newGrid[row, col] = 0;
+                            }
                         }
                     }
-                }
+                );
+
                 Swap(ref _curGrid, ref _newGrid);
-                Console.WriteLine(locationsAlive);
+                Console.WriteLine(locationsAlive.Sum());
                 numberOfIterations--;
             }
         }
