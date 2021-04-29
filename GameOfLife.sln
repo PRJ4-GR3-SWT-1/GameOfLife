@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife", "GameOfLife\GameOfLife.csproj", "{FC3CDD42-187C-4CD9-BBC5-1AA0C83A43B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameOfLife", "GameOfLife\GameOfLife.csproj", "{FC3CDD42-187C-4CD9-BBC5-1AA0C83A43B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapReduce", "MapReduce\MapReduce.csproj", "{EA0F7261-32C4-4EE1-8B86-978A74F17EC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{FC3CDD42-187C-4CD9-BBC5-1AA0C83A43B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC3CDD42-187C-4CD9-BBC5-1AA0C83A43B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC3CDD42-187C-4CD9-BBC5-1AA0C83A43B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA0F7261-32C4-4EE1-8B86-978A74F17EC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA0F7261-32C4-4EE1-8B86-978A74F17EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA0F7261-32C4-4EE1-8B86-978A74F17EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA0F7261-32C4-4EE1-8B86-978A74F17EC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
