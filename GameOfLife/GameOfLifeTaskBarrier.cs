@@ -34,19 +34,22 @@ namespace GameOfLife
 
         public void Run(int numberOfIterations)
         {
-            while (numberOfIterations > 0)
+        
+            int numberOfTask = Environment.ProcessorCount;
+            var tasks = new Task[numberOfTask];
+            var stepBarrier = new Barrier(numberOfTask, _ => Swap(ref _curGrid, ref _newGrid));
+            int chunckSize = _gridSize / numberOfTask;
+            var locationsAlive = new int[numberOfTask];
+            for (int i = 0; i < numberOfTask; i++)
             {
-                int numberOfTask = Environment.ProcessorCount;
-                var tasks = new Task[numberOfTask];
-                var stepBarrier = new Barrier(numberOfTask, _ => Swap(ref _curGrid, ref _newGrid));
-                int chunckSize = _gridSize / numberOfTask;
-                var locationsAlive = new int[numberOfTask];
-                for (int i = 0; i < numberOfTask; i++)
-                {
-                    int chunckRow = i * chunckSize;
-                    var localI = i;
-                    tasks[i] = Task.Run(() =>
+                int chunckRow = i * chunckSize;
+                var localI = i;
+                tasks[i] = Task.Run(() =>
+                    {
+
+                        while (numberOfIterations > 0)
                         {
+
                             for (var row = chunckRow; row < chunckRow + chunckSize; row++)
                             {
                                 for (var col = 0; col < _gridSize; col++)
@@ -63,19 +66,22 @@ namespace GameOfLife
                                 }
                             }
                             stepBarrier.SignalAndWait();
+                            //Console.WriteLine(stepBarrier.ParticipantsRemaining);
+                            //while (stepBarrier.ParticipantsRemaining > 0) { }
+                            Console.WriteLine(locationsAlive.Sum());
+                            numberOfIterations--;
                         }
-                    );
-                    
-
-                }
-
+                        stepBarrier.RemoveParticipant();
+                    }
+                );
                 
-                
-
-
-                Console.WriteLine(locationsAlive.Sum());
-                numberOfIterations--;
             }
+
+            while (stepBarrier.ParticipantCount>0)
+            {
+                
+            }
+                
         }
 
         private bool ShallLocationBeAlive(int row, int col)
