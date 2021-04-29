@@ -59,7 +59,7 @@ namespace MapReduce
         private static void Main(string[] args)
         {
             var files =
-                Directory.EnumerateFiles(@"", "*.txt")
+                Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.txt")
                     .AsParallel();
 
             var wordCount = files.MapReduce(
