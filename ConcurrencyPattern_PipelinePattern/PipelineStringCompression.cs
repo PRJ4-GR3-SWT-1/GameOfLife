@@ -27,7 +27,7 @@ namespace ConcurrencyPattern_PipelinePattern
         public double Run()
         {
             BlockingCollection<string> input = new BlockingCollection<string>();
-            BlockingCollection<string> output = new BlockingCollection<string>();
+            BlockingCollection<Kurt> output = new BlockingCollection<Kurt>();
             BlockingCollection<string> inputCpy = new BlockingCollection<string>();
 
 
@@ -53,6 +53,7 @@ namespace ConcurrencyPattern_PipelinePattern
                 }
             });
 
+            //Flere tråde der compresser strings 
             Task compressStringsTask = Task.Run(() =>
             {
                 Stopwatch sw = new Stopwatch();
@@ -63,7 +64,7 @@ namespace ConcurrencyPattern_PipelinePattern
                     foreach (var basicstring in input.GetConsumingEnumerable())
                     {
                         var basic = Compress(basicstring);
-                        output.Add(basic);
+                        output.Add(new Kurt(basicstring,basic));
                     }
 
                 }
@@ -83,9 +84,9 @@ namespace ConcurrencyPattern_PipelinePattern
                 try
                 {
 
-                    foreach (var compressedString in output.GetConsumingEnumerable())
+                    foreach (var Kurtpar in output.GetConsumingEnumerable())
                     {
-                        UpdateCompressionStats(count, inputCpy.ElementAt(count), compressedString);
+                        UpdateCompressionStats(count, Kurtpar.org, Kurtpar.com);
                         count++;
                     }
                 }
@@ -138,6 +139,19 @@ namespace ConcurrencyPattern_PipelinePattern
 
 
 
+
+    }
+
+    public class Kurt
+    {
+        public string org;
+        public string com;
+
+        public Kurt(string o, string c)
+        {
+            org = o;
+            com = c; 
+        }
 
     }
 }
